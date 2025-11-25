@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import TodoRow from "./components/TodoRow";
+import TodoContainer from "./components/TodoContainer";
 
 export default function App() {
-  const [todo, setTodo] = useState<string>("");
   const submitTodo = () => {
     console.log("pressed");
   };
@@ -18,23 +11,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Todo List</Text>
-      <View style={styles.todoContainer}>
-        <View>
-          <TextInput
-            placeholder="Todo task name"
-            onChangeText={setTodo}
-            value={todo}
-            style={styles.inputField}
-          />
-        </View>
-        <View>
-          <Pressable onPress={submitTodo}>
-            <Text>Save</Text>
-          </Pressable>
-        </View>
-        <View></View>
-      </View>
-
+      <TodoContainer submitTodo={submitTodo} />
+      {/* asdf sidenote this is cringe */}
       <ScrollView>
         <TodoRow text="someData" />
         {/* someData.map((item) => (
@@ -55,15 +33,6 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     textAlign: "center",
-  },
-  todoContainer: {
-    flexDirection: "row",
-    backgroundColor: "pink",
-  },
-  inputField: {
-    alignItems: "center",
-    width: "100%",
-    justifyContent: "center",
   },
   saveText: {
     alignItems: "center",
