@@ -1,23 +1,77 @@
-import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import TodoRow from "./components/TodoRow";
-import TodoContainer from "./components/TodoContainer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+interface TodoTask {
+  id: number;
+  task: string;
+  done: boolean;
+}
+
+const STORAGE_KEY = "TODOS_ITEMS_STORAGE";
 
 export default function App() {
-  const submitTodo = () => {
-    console.log("pressed");
+  const [tasks, setTasks] = useState<TodoTask[]>([]);
+  const [todo, setTodo] = useState<string>("");
+
+  const submitTodo = () => {};
+
+  const toggleTask = (id: number) => {
+    console.log("trying to toggle task", id);
   };
+
+  // load from storage
+  useEffect(() => {
+    (async () => {
+      try {
+        const json = await AsyncStorage.getItem(STORAGE_KEY);
+        if (json) setTasks(JSON.parse(json));
+      } catch (error) {
+        console.log("error");
+        console.log(error);
+      }
+    })(); // runs itself
+  }, []);
+
+  // set to storae
+  useEffect(() => {
+    console.log("todo yes");
+  }, [todo]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Todo List</Text>
-      <TodoContainer submitTodo={submitTodo} />
-      {/* asdf sidenote this is cringe */}
-      <ScrollView>
-        <TodoRow text="someData" />
-        {/* someData.map((item) => (
-            <Row>
-          )) */}
+      {/* <TodoContainer submitTodo={submitTodo} /> */}
+
+      <View style={styles.todoContainer}>
+        <View>
+          <TextInput
+            placeholder="Todo task name"
+            onChangeText={setTodo}
+            value={todo}
+            style={styles.inputField}
+          />
+        </View>
+        <View>
+          <Pressable onPress={submitTodo}>
+            <Text>Save</Text>
+          </Pressable>
+        </View>
+      </View>
+      <ScrollView style={styles.scrollview}>
+        {tasks.map((item: TodoTask) => (
+          <Pressable onPress={() => toggleTask(item.id)} key={item.id}>
+            <TodoRow text={item.task} id={item.id} done={item.done} />
+          </Pressable>
+        ))}
       </ScrollView>
     </View>
   );
@@ -29,10 +83,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: 48,
+  },
+  scrollview: {
+    paddingTop: 16,
+  },
+  todoContainer: {
+    flexDirection: "row",
+    backgroundColor: "pink",
+  },
+  inputField: {
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "center",
   },
   headerText: {
     fontSize: 24,
     textAlign: "center",
+    paddingBottom: 16,
   },
   saveText: {
     alignItems: "center",
