@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import TodoRow from "./components/TodoRow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import TodoContainer from "./components/TodoContainer";
+import TodoRow from "./components/TodoRow";
 
 interface TodoTask {
   id: number;
@@ -74,23 +68,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Todo List</Text>
-      {/* <TodoContainer submitTodo={submitTodo} /> */}
-
-      <View style={styles.todoContainer}>
-        <View>
-          <TextInput
-            placeholder="Todo task name"
-            onChangeText={setTodo}
-            value={todo}
-            style={styles.inputField}
-          />
-        </View>
-        <View>
-          <Pressable onPress={submitTodo}>
-            <Text>Save</Text>
-          </Pressable>
-        </View>
-      </View>
+      <TodoContainer submitTodo={submitTodo} todo={todo} setTodo={setTodo} />
       <ScrollView style={styles.scrollview}>
         {tasks.map((item: TodoTask) => (
           <Pressable onPress={() => toggleTask(item.id)} key={item.id}>
@@ -107,28 +85,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
     paddingTop: 48,
   },
   scrollview: {
+    backgroundColor: "blue",
     paddingTop: 16,
-  },
-  todoContainer: {
-    flexDirection: "row",
-    backgroundColor: "pink",
-  },
-  inputField: {
-    alignItems: "center",
-    width: "100%",
-    justifyContent: "center",
+    paddingBottom: 48,
   },
   headerText: {
     fontSize: 24,
     textAlign: "center",
     paddingBottom: 16,
-  },
-  saveText: {
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

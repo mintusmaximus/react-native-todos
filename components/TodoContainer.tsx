@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import { Dispatch, SetStateAction } from "react";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 type ContainerProps = {
   submitTodo: () => void;
+  setTodo: Dispatch<SetStateAction<string>>;
+  todo: string;
 };
 
-const TodoContainer = ({ submitTodo }: ContainerProps) => {
-  const [todo, setTodo] = useState<string>("");
+const TodoContainer = ({ submitTodo, setTodo, todo }: ContainerProps) => {
   return (
     <View style={styles.todoContainer}>
       <View>
@@ -32,10 +33,17 @@ const styles = StyleSheet.create({
   todoContainer: {
     flexDirection: "row",
     backgroundColor: "pink",
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 16,
+    marginBottom: 12,
   },
   inputField: {
     alignItems: "center",
     width: "100%",
     justifyContent: "center",
+    flex: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
   },
 });

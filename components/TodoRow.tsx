@@ -18,12 +18,22 @@ export default TodoRow;
 
 const styles = StyleSheet.create({
   rowContainer: {
-    backgroundColor: "red",
+    width: "100%",
+    padding: 12,
+    backgroundColor: "#a1f7b8",
+    alignItems: "center",
+    borderRadius: 8,
+    borderColor: "#000",
+    borderWidth: 2,
+    justifyContent: "center",
+    marginBottom: 8,
   },
   text: {
-    color: "blue",
+    textAlign: "center",
+    fontSize: 24,
   },
   strike: {
     textDecorationLine: "line-through",
+    color: "#888",
   },
 });
