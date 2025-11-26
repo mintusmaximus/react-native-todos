@@ -6,6 +6,7 @@ type Props = {
   done: boolean;
 };
 
+// individual todo task rows inside of the scrollview
 const TodoRow = ({ text, id, done }: Props) => {
   return (
     <View style={styles.rowContainer}>
@@ -18,9 +19,9 @@ export default TodoRow;
 
 const styles = StyleSheet.create({
   rowContainer: {
-    width: "100%",
     padding: 12,
-    backgroundColor: "#a1f7b8",
+    marginHorizontal: 12,
+    backgroundColor: "lemonchiffon",
     alignItems: "center",
     borderRadius: 8,
     borderColor: "#000",
@@ -31,9 +32,11 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     fontSize: 24,
+    fontWeight: 900,
   },
   strike: {
     textDecorationLine: "line-through",
     color: "#888",
+    fontWeight: 200,
   },
 });

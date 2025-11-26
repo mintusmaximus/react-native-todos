@@ -26,6 +26,7 @@ export default function App() {
           done: false,
         },
       ]);
+      setTodo("");
     }
   };
 
@@ -69,7 +70,10 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.headerText}>Todo List</Text>
       <TodoContainer submitTodo={submitTodo} todo={todo} setTodo={setTodo} />
-      <ScrollView style={styles.scrollview}>
+      <ScrollView
+        style={styles.scrollview}
+        contentContainerStyle={styles.scrollviewContent}
+      >
         {tasks.map((item: TodoTask) => (
           <Pressable onPress={() => toggleTask(item.id)} key={item.id}>
             <TodoRow text={item.task} id={item.id} done={item.done} />
@@ -88,9 +92,10 @@ const styles = StyleSheet.create({
     paddingTop: 48,
   },
   scrollview: {
-    backgroundColor: "blue",
     paddingTop: 16,
-    paddingBottom: 48,
+  },
+  scrollviewContent: {
+    paddingBottom: 64,
   },
   headerText: {
     fontSize: 24,
