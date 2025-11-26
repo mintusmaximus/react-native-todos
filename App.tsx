@@ -22,10 +22,27 @@ export default function App() {
   const [tasks, setTasks] = useState<TodoTask[]>([]);
   const [todo, setTodo] = useState<string>("");
 
-  const submitTodo = () => {};
+  const submitTodo = () => {
+    if (todo.trim()) {
+      setTasks((prev) => [
+        ...prev,
+        {
+          id: Math.floor(Math.random() * 10000) + 1, // eh should be high enough
+          task: todo,
+          done: false,
+        },
+      ]);
+    }
+  };
 
   const toggleTask = (id: number) => {
-    console.log("trying to toggle task", id);
+    setTasks(
+      // iterate through the tasks
+      tasks.map((task) =>
+        // if iterated task id matches to passed id, spread the task and replace done with opposite value, else return iteratee
+        task.id === id ? { ...task, done: !task.done } : task,
+      ),
+    );
   };
 
   // load from storage
@@ -43,8 +60,16 @@ export default function App() {
 
   // set to storae
   useEffect(() => {
-    console.log("todo yes");
-  }, [todo]);
+    (async () => {
+      try {
+        console.log("Setting item to storage");
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      } catch (error) {
+        console.log("error");
+        console.log(error);
+      }
+    })();
+  }, [tasks]);
 
   return (
     <View style={styles.container}>
